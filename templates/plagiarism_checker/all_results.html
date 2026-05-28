@@ -1,0 +1,86 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>All Results</title>
+
+    <style>
+
+        body{
+            font-family:Arial, Helvetica, sans-serif;
+            background:#f4f6f9;
+            padding:40px;
+        }
+
+        .container{
+            max-width:800px;
+            margin:auto;
+        }
+
+        .card{
+            background:white;
+            padding:20px;
+            border-radius:10px;
+            margin-bottom:20px;
+            box-shadow:0 5px 15px rgba(0,0,0,0.1);
+        }
+
+        h1{
+            margin-bottom:30px;
+            color:#4e54c8;
+        }
+
+        a{
+            display:inline-block;
+            margin-top:20px;
+            text-decoration:none;
+            background:#4e54c8;
+            color:white;
+            padding:10px 15px;
+            border-radius:8px;
+        }
+
+    </style>
+
+</head>
+
+<body>
+
+    <div class="container">
+
+        <h1>All Results</h1>
+
+        {% if results %}
+
+            {% for result in results %}
+
+                <div class="card">
+
+                    <h3>
+                        Similarity:
+                        {{ result.overall_score }}%
+                    </h3>
+
+                </div>
+
+            {% endfor %}
+
+        {% else %}
+
+            <div class="card">
+
+                <p>No results available.</p>
+
+            </div>
+
+        {% endif %}
+
+        <a href="/dashboard/">
+            Back to Dashboard
+        </a>
+
+    </div>
+
+</body>
+</html>

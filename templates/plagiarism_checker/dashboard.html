@@ -1,0 +1,818 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+
+    <meta charset="UTF-8">
+
+    <meta name="viewport"
+          content="width=device-width, initial-scale=1.0">
+
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+
+    <title>Dashboard</title>
+
+    <style>
+
+        /* ========================= */
+        /* THEME VARIABLES */
+        /* ========================= */
+
+        :root{
+
+            --bg:#111827;
+
+            --card:#1f2937;
+
+            --border:#374151;
+
+            --text:#f9fafb;
+
+            --secondary:#9ca3af;
+
+            --primary:#6366f1;
+
+            --shadow:rgba(0,0,0,0.15);
+        }
+
+        /* ========================= */
+        /* LIGHT MODE */
+        /* ========================= */
+
+        .light-mode{
+
+            --bg:#eef2f7;
+
+            --card:white;
+
+            --border:#e5e7eb;
+
+            --text:#111827;
+
+            --secondary:#4b5563;
+
+            --primary:#4f46e5;
+
+            --shadow:rgba(0,0,0,0.08);
+        }
+
+        /* ========================= */
+        /* GLOBAL */
+        /* ========================= */
+
+        *{
+            margin:0;
+            padding:0;
+            box-sizing:border-box;
+            font-family:Arial, Helvetica, sans-serif;
+        }
+
+        body{
+
+            background:var(--bg);
+
+            color:var(--text);
+
+            min-height:100vh;
+
+            transition:0.3s;
+        }
+
+        a{
+            text-decoration:none;
+        }
+
+        /* ========================= */
+        /* NAVBAR */
+        /* ========================= */
+
+        .navbar{
+
+            width:100%;
+
+            height:70px;
+
+            padding:0 30px;
+
+            display:flex;
+
+            justify-content:space-between;
+
+            align-items:center;
+
+            background:var(--card);
+
+            border-bottom:1px solid var(--border);
+        }
+
+        .logo{
+
+            font-size:22px;
+
+            font-weight:bold;
+
+            color:var(--primary);
+        }
+
+        .nav-right{
+
+            display:flex;
+
+            align-items:center;
+
+            gap:14px;
+        }
+
+        .nav-links{
+
+            display:flex;
+
+            gap:10px;
+        }
+
+        .nav-links a{
+
+            color:var(--text);
+
+            padding:10px 14px;
+
+            border-radius:8px;
+
+            font-size:14px;
+
+            transition:0.3s;
+        }
+
+        .nav-links a:hover{
+
+            background:rgba(99,102,241,0.12);
+        }
+
+        /* ========================= */
+        /* THEME BUTTON */
+        /* ========================= */
+
+        .theme-btn{
+
+            border:none;
+
+            background:var(--primary);
+
+            color:white;
+
+            width:42px;
+
+            height:42px;
+
+            border-radius:10px;
+
+            cursor:pointer;
+
+            font-size:18px;
+
+            transition:0.3s;
+            display:flex;
+            align-items: center;
+            justify-content: center;
+        }
+
+        .theme-btn:hover{
+
+            transform:scale(1.05);
+        }
+
+        /* ========================= */
+        /* MAIN */
+        /* ========================= */
+
+        .container{
+
+            max-width:1100px;
+
+            margin:auto;
+
+            padding:35px 20px;
+        }
+
+        /* ========================= */
+        /* HERO */
+        /* ========================= */
+
+        .hero{
+
+            margin-bottom:35px;
+        }
+
+        .hero h1{
+
+            font-size:34px;
+
+            margin-bottom:10px;
+        }
+
+        .hero p{
+
+            color:var(--secondary);
+
+            line-height:1.7;
+
+            font-size:15px;
+        }
+
+        /* ========================= */
+        /* STATS */
+        /* ========================= */
+
+        .cards{
+
+            display:grid;
+
+            grid-template-columns:
+            repeat(auto-fit,minmax(220px,1fr));
+
+            gap:16px;
+
+            margin-bottom:30px;
+        }
+
+        .card{
+
+            background:var(--card);
+
+            border:1px solid var(--border);
+
+            border-radius:14px;
+
+            padding:20px;
+
+            box-shadow:0 4px 12px var(--shadow);
+
+            transition:0.3s;
+        }
+
+        .card:hover{
+
+            transform:translateY(-3px);
+            border-color:#6366f1;
+        }
+
+        .card h2{
+
+            color:var(--secondary);
+
+            font-size:14px;
+
+            margin-bottom:12px;
+        }
+
+        .card p{
+
+            font-size:28px;
+
+            font-weight:bold;
+        }
+
+        /* ========================= */
+        /* BUTTONS */
+        /* ========================= */
+
+        .buttons{
+
+            display:flex;
+
+            gap:14px;
+
+            flex-wrap:wrap;
+
+            margin-bottom:35px;
+        }
+
+        .buttons a{
+
+            background:var(--primary);
+
+            color:white;
+
+            padding:12px 18px;
+
+            border-radius:10px;
+
+            font-size:14px;
+
+            transition:0.3s;
+            box-shadow:0 4px 10px rgba(99,102,241,0.18);
+        }
+
+        .buttons a:hover{
+
+            transform:translateY(-2px);
+        }
+
+        /* ========================= */
+        /* ANALYTICS */
+        /* ========================= */
+
+        .analytics{
+
+            display:grid;
+
+            grid-template-columns:
+            repeat(auto-fit,minmax(320px,1fr));
+
+            gap:18px;
+        }
+
+        .chart-box{
+
+            background:var(--card);
+
+            border:1px solid var(--border);
+
+            border-radius:14px;
+
+            padding:18px;
+        }
+
+        .chart-title{
+
+            font-size:16px;
+
+            margin-bottom:16px;
+
+            color:var(--secondary);
+        }
+
+        canvas{
+
+            max-height:180px;
+        }
+
+        /* ========================= */
+        /* FOOTER */
+        /* ========================= */
+
+        .footer{
+
+            text-align:center;
+
+            color:var(--secondary);
+
+            padding:35px;
+
+            font-size:14px;
+        }
+
+        /* ========================= */
+        /* MOBILE */
+        /* ========================= */
+
+        @media(max-width:768px){
+
+            .navbar{
+
+                flex-direction:column;
+
+                height:auto;
+
+                padding:20px;
+
+                gap:15px;
+            }
+
+            .nav-right{
+
+                flex-direction:column;
+            }
+
+            .hero h1{
+
+                font-size:28px;
+            }
+        }
+
+    </style>
+
+</head>
+
+<body>
+
+    <!-- ========================= -->
+    <!-- NAVBAR -->
+    <!-- ========================= -->
+
+    <div class="navbar">
+
+        <div class="logo">
+
+            Plagiarism Detector
+
+        </div>
+
+        <div class="nav-right">
+
+            <div class="nav-links">
+
+                <a href="/upload/">
+
+                    Upload
+
+                </a>
+
+                <a href="/my-documents/">
+
+                    Documents
+
+                </a>
+
+                <a href="/all-results/">
+
+                    Results
+
+                </a>
+
+            </div>
+
+            <!-- THEME BUTTON -->
+
+            <button
+                id="themeToggle"
+                class="theme-btn"
+            >
+
+                🌙
+
+            </button>
+
+        </div>
+
+    </div>
+
+    <!-- ========================= -->
+    <!-- MAIN -->
+    <!-- ========================= -->
+
+    <div class="container">
+
+        <!-- HERO -->
+
+        <div class="hero">
+
+            <h1>
+
+                Welcome Back {{ user.first_name|default:user.username }}!
+
+            </h1>
+
+            <p>
+
+                 Monitor plagiarism analysis,
+                track uploaded documents,
+                and review semantic similarity
+                reports in one place.
+
+            </p>
+
+        </div>
+
+        <!-- STATS -->
+
+        <div class="cards">
+
+            <div class="card">
+
+                <h2>
+
+                    Total Documents
+
+                </h2>
+
+                <p>
+
+                    {{ stats.total_documents }}
+
+                </p>
+
+            </div>
+
+            <div class="card">
+
+                <h2>
+
+                    Total Checks
+
+                </h2>
+
+                <p>
+
+                    {{ stats.total_checks }}
+
+                </p>
+
+            </div>
+
+            <div class="card">
+
+                <h2>
+
+                    Average Score
+
+                </h2>
+
+                <p>
+
+                    {{ stats.average_score }}%
+
+                </p>
+
+            </div>
+
+            <div class="card">
+
+                <h2>
+
+                    Highest Score
+
+                </h2>
+
+                <p>
+
+                    {{ stats.highest_score }}%
+
+                </p>
+
+            </div>
+
+        </div>
+
+        <!-- BUTTONS -->
+
+        <div class="buttons">
+
+            <a href="/upload/">
+
+                Upload Document
+
+            </a>
+
+            <a href="/my-documents/">
+
+                My Documents
+
+            </a>
+
+            <a href="/all-results/">
+
+                View Results
+
+            </a>
+
+        </div>
+
+        <!-- ANALYTICS -->
+
+        <div class="analytics">
+
+            <!-- DOUGHNUT -->
+
+            <div class="chart-box">
+
+                <div class="chart-title">
+
+                    Average Plagiarism
+
+                </div>
+
+                <canvas id="overviewChart"></canvas>
+
+            </div>
+
+            <!-- BAR -->
+
+            <div class="chart-box">
+
+                <div class="chart-title">
+
+                    Statistics
+
+                </div>
+
+                <canvas id="statsChart"></canvas>
+
+            </div>
+
+        </div>
+
+    </div>
+
+    <!-- FOOTER -->
+
+    <div class="footer">
+
+        AI Semantic Plagiarism Detection System
+
+    </div>
+
+    <!-- ========================= -->
+    <!-- SCRIPTS -->
+    <!-- ========================= -->
+
+    <script>
+
+        // =========================
+        // THEME TOGGLE
+        // =========================
+
+        const themeToggle = document.getElementById(
+            "themeToggle"
+        );
+
+        // LOAD SAVED THEME
+
+        if(
+
+            localStorage.getItem("theme")
+            === "light"
+
+        ){
+
+            document.body.classList.add(
+                "light-mode"
+            );
+
+            themeToggle.innerHTML = "☀️";
+        }
+
+        // TOGGLE
+
+        themeToggle.addEventListener(
+
+            "click",
+
+            () => {
+
+                document.body.classList.toggle(
+                    "light-mode"
+                );
+
+                if(
+
+                    document.body.classList.contains(
+                        "light-mode"
+                    )
+
+                ){
+
+                    localStorage.setItem(
+                        "theme",
+                        "light"
+                    );
+
+                    themeToggle.innerHTML = "☀️";
+
+                }else{
+
+                    localStorage.setItem(
+                        "theme",
+                        "dark"
+                    );
+
+                    themeToggle.innerHTML = "🌙";
+                }
+            }
+        );
+
+        // =========================
+        // DOUGHNUT CHART
+        // =========================
+
+        const overviewCtx = document.getElementById(
+            "overviewChart"
+        );
+
+        new Chart(overviewCtx, {
+
+            type:"doughnut",
+
+            data:{
+
+                datasets:[{
+
+                    data:[
+
+                        {{ stats.average_score|default:0 }},
+
+                        100 - {{ stats.average_score|default:0 }}
+                    ],
+
+                    backgroundColor:[
+
+                        "#ef4444",
+
+                        "#374151"
+                    ],
+
+                    borderWidth:0
+                }]
+            },
+
+            options:{
+
+                cutout:"75%",
+
+                plugins:{
+                    legend:{
+                        display:false
+                    }
+                }
+            }
+        });
+
+        // =========================
+        // BAR CHART
+        // =========================
+
+        const statsCtx = document.getElementById(
+            "statsChart"
+        );
+
+        new Chart(statsCtx, {
+
+            type:"bar",
+
+            data:{
+
+                labels:[
+
+                    "Documents",
+
+                    "Checks",
+
+                    "Highest Score"
+                ],
+
+                datasets:[{
+
+                    data:[
+
+                        {{ stats.total_documents|default:0 }},
+
+                        {{ stats.total_checks|default:0 }},
+
+                        {{ stats.highest_score|default:0 }}
+                    ],
+
+                    backgroundColor:[
+
+                        "#4f46e5",
+
+                        "#6366f1",
+
+                        "#818cf8"
+                    ],
+
+                    borderRadius:6
+                }]
+            },
+
+            options:{
+
+                plugins:{
+                    legend:{
+                        display:false
+                    }
+                },
+
+                scales:{
+
+                    y:{
+
+                        beginAtZero:true,
+
+                        ticks:{
+                            color:"#9ca3af"
+                        },
+
+                        grid:{
+                            color:"rgba(255,255,255,0.06)"
+                        }
+                    },
+
+                    x:{
+
+                        ticks:{
+                            color:"#9ca3af"
+                        },
+
+                        grid:{
+                            display:false
+                        }
+                    }
+                }
+            }
+        });
+
+    </script>
+
+</body>
+
+</html>

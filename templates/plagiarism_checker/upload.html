@@ -1,0 +1,567 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+
+    <meta charset="UTF-8">
+
+    <meta name="viewport"
+          content="width=device-width, initial-scale=1.0">
+
+    <title>AI Upload Portal</title>
+
+    <!-- DROPZONE -->
+
+    <link
+        rel="stylesheet"
+        href="https://unpkg.com/dropzone@5/dist/min/dropzone.min.css"
+    >
+
+    <script
+        src="https://unpkg.com/dropzone@5/dist/min/dropzone.min.js">
+    </script>
+
+    <style>
+
+        *{
+            margin:0;
+            padding:0;
+            box-sizing:border-box;
+            font-family:Arial, Helvetica, sans-serif;
+        }
+
+        body{
+
+            min-height:100vh;
+
+            background:linear-gradient(
+                -45deg,
+                #0f172a,
+                #1e293b,
+                #312e81,
+                #0f172a
+            );
+
+            background-size:400% 400%;
+
+            animation:gradientBG 15s ease infinite;
+
+            display:flex;
+
+            justify-content:center;
+
+            align-items:center;
+
+            overflow:hidden;
+
+            padding:30px;
+        }
+
+        /* ========================= */
+        /* BACKGROUND ANIMATION */
+        /* ========================= */
+
+        @keyframes gradientBG{
+
+            0%{
+                background-position:0% 50%;
+            }
+
+            50%{
+                background-position:100% 50%;
+            }
+
+            100%{
+                background-position:0% 50%;
+            }
+        }
+
+        /* ========================= */
+        /* FLOATING CIRCLES */
+        /* ========================= */
+
+        .circle{
+
+            position:absolute;
+
+            border-radius:50%;
+
+            background:rgba(255,255,255,0.05);
+
+            animation:float 12s infinite linear;
+        }
+
+        .circle:nth-child(1){
+
+            width:200px;
+            height:200px;
+
+            top:10%;
+            left:5%;
+        }
+
+        .circle:nth-child(2){
+
+            width:300px;
+            height:300px;
+
+            bottom:10%;
+            right:5%;
+        }
+
+        @keyframes float{
+
+            0%{
+                transform:translateY(0px);
+            }
+
+            50%{
+                transform:translateY(-30px);
+            }
+
+            100%{
+                transform:translateY(0px);
+            }
+        }
+
+        /* ========================= */
+        /* CONTAINER */
+        /* ========================= */
+
+        .container{
+
+            width:100%;
+
+            max-width:750px;
+
+            background:rgba(255,255,255,0.08);
+
+            backdrop-filter:blur(16px);
+
+            border:1px solid rgba(255,255,255,0.1);
+
+            border-radius:28px;
+
+            padding:55px;
+
+            box-shadow:0 10px 50px rgba(0,0,0,0.35);
+
+            position:relative;
+
+            z-index:10;
+
+            animation:fadeIn 1s ease;
+        }
+
+        @keyframes fadeIn{
+
+            from{
+                opacity:0;
+                transform:translateY(30px);
+            }
+
+            to{
+                opacity:1;
+                transform:translateY(0);
+            }
+        }
+
+        h1{
+
+            font-size:48px;
+
+            text-align:center;
+
+            margin-bottom:18px;
+
+            color:#c4b5fd;
+        }
+
+        .subtitle{
+
+            text-align:center;
+
+            color:#cbd5e1;
+
+            line-height:1.8;
+
+            margin-bottom:45px;
+
+            font-size:18px;
+        }
+
+        /* ========================= */
+        /* DROPZONE */
+        /* ========================= */
+
+        .dropzone{
+
+            border:3px dashed #6366f1 !important;
+
+            border-radius:24px !important;
+
+            background:rgba(255,255,255,0.05) !important;
+
+            min-height:320px;
+
+            display:flex;
+
+            flex-direction:column;
+
+            justify-content:center;
+
+            align-items:center;
+
+            transition:0.3s;
+
+            animation:pulse 2.5s infinite;
+        }
+
+        @keyframes pulse{
+
+            0%{
+                box-shadow:0 0 0 0 rgba(99,102,241,0.4);
+            }
+
+            70%{
+                box-shadow:0 0 0 25px rgba(99,102,241,0);
+            }
+
+            100%{
+                box-shadow:0 0 0 0 rgba(99,102,241,0);
+            }
+        }
+
+        .dropzone:hover{
+
+            transform:scale(1.02);
+
+            background:rgba(255,255,255,0.08) !important;
+        }
+
+        .dz-message{
+
+            color:white;
+
+            font-size:28px;
+
+            font-weight:bold;
+        }
+
+        .dz-message span{
+
+            display:block;
+
+            margin-top:15px;
+
+            color:#cbd5e1;
+
+            font-size:17px;
+
+            font-weight:normal;
+        }
+
+        /* ========================= */
+        /* FILE PREVIEW */
+        /* ========================= */
+
+        .dz-preview{
+
+            background:rgba(255,255,255,0.08) !important;
+
+            border:none !important;
+
+            border-radius:18px !important;
+
+            padding:14px !important;
+
+            color:white !important;
+        }
+
+        /* ========================= */
+        /* BUTTON */
+        /* ========================= */
+
+        .buttons{
+
+            margin-top:35px;
+
+            display:flex;
+
+            justify-content:center;
+        }
+
+        .btn{
+
+            padding:15px 28px;
+
+            background:#6366f1;
+
+            color:white;
+
+            text-decoration:none;
+
+            border-radius:14px;
+
+            font-weight:bold;
+
+            transition:0.3s;
+
+            box-shadow:0 5px 25px rgba(99,102,241,0.35);
+        }
+
+        .btn:hover{
+
+            background:#4f46e5;
+
+            transform:translateY(-4px);
+        }
+
+        /* ========================= */
+        /* INFO BOX */
+        /* ========================= */
+
+        .info{
+
+            margin-top:35px;
+
+            background:rgba(255,255,255,0.05);
+
+            padding:22px;
+
+            border-radius:18px;
+
+            color:#cbd5e1;
+
+            line-height:1.8;
+        }
+
+        .info strong{
+
+            color:#c4b5fd;
+        }
+
+        /* ========================= */
+        /* LOADING */
+        /* ========================= */
+
+        .loading{
+
+            display:none;
+
+            margin-top:30px;
+
+            text-align:center;
+
+            color:white;
+        }
+
+        .spinner{
+
+            width:55px;
+
+            height:55px;
+
+            border:6px solid rgba(255,255,255,0.2);
+
+            border-top:6px solid #6366f1;
+
+            border-radius:50%;
+
+            animation:spin 1s linear infinite;
+
+            margin:auto;
+
+            margin-bottom:20px;
+        }
+
+        @keyframes spin{
+
+            100%{
+                transform:rotate(360deg);
+            }
+        }
+
+    </style>
+
+</head>
+
+<body>
+
+    <!-- FLOATING OBJECTS -->
+
+    <div class="circle"></div>
+
+    <div class="circle"></div>
+
+    <!-- MAIN -->
+
+    <div class="container">
+
+        <h1>
+
+            AI Upload Portal
+
+        </h1>
+
+        <div class="subtitle">
+
+            Upload documents and analyze
+            semantic plagiarism using
+            AI-powered similarity detection.
+
+        </div>
+
+        <!-- DROPZONE -->
+
+        <form
+
+            action="/upload/"
+
+            method="POST"
+
+            enctype="multipart/form-data"
+
+            class="dropzone"
+
+            id="plagiarismDropzone"
+        >
+
+            {% csrf_token %}
+
+            <div class="dz-message">
+
+                Drag & Drop Files
+
+                <span>
+
+                    or click to browse files
+
+                </span>
+
+            </div>
+
+        </form>
+
+        <!-- LOADING -->
+
+        <div class="loading" id="loading">
+
+            <div class="spinner"></div>
+
+            AI is analyzing your document...
+
+        </div>
+
+        <!-- BUTTON -->
+
+        <div class="buttons">
+
+            <a
+                href="/dashboard/"
+                class="btn"
+            >
+
+                Back to Dashboard
+
+            </a>
+
+        </div>
+
+        <!-- INFO -->
+
+        <div class="info">
+
+            <strong>
+                Supported:
+            </strong>
+
+            PDF, TXT
+
+            <br><br>
+
+            <strong>
+                Features:
+            </strong>
+
+            Semantic AI Detection,
+            Highlighted Similarities,
+            AI Analysis,
+            Plagiarism Scoring.
+
+        </div>
+
+    </div>
+
+    <!-- DROPZONE CONFIG -->
+
+    <script>
+
+        Dropzone.autoDiscover = false;
+
+        const loading = document.getElementById(
+            "loading"
+        );
+
+        const plagiarismDropzone = new Dropzone(
+
+            "#plagiarismDropzone",
+
+            {
+
+                paramName:"document",
+
+                maxFilesize:10,
+
+                acceptedFiles:".pdf,.txt",
+
+                timeout:120000,
+
+                init:function(){
+
+                    this.on(
+
+                        "sending",
+
+                        function(){
+
+                            loading.style.display =
+                            "block";
+                        }
+                    );
+
+                    this.on(
+
+                        "success",
+
+                        function(){
+
+                            window.location.href =
+                            "/results/";
+                        }
+                    );
+
+                    this.on(
+
+                        "error",
+
+                        function(file,errorMessage){
+
+                            loading.style.display =
+                            "none";
+
+                            alert(
+                                "Upload failed: "
+                                + errorMessage
+                            );
+                        }
+                    );
+                }
+            }
+        );
+
+    </script>
+
+</body>
+
+</html>

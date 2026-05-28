@@ -1,0 +1,1 @@
+web: gunicorn plagiarism_project.wsgi
