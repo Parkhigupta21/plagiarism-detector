@@ -19,7 +19,14 @@ SECRET_KEY = os.getenv('SECRET_KEY', 'fallback-dev-key-change-in-production')
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = os.getenv('DEBUG', 'False').lower() == 'true'
 
-ALLOWED_HOSTS = os.getenv('ALLOWED_HOSTS', 'localhost,127.0.0.1').split(',')
+ALLOWED_HOSTS = [
+
+    "127.0.0.1",
+
+    "localhost",
+
+    ".onrender.com",
+]
 
 # Application definition
 INSTALLED_APPS = [
@@ -98,8 +105,20 @@ USE_TZ = True
 
 # Static files (CSS, JavaScript, Images)
 STATIC_URL = 'static/'
-STATICFILES_DIRS = [BASE_DIR / 'static']
+
 STATIC_ROOT = BASE_DIR / 'staticfiles'
+
+STATICFILES_STORAGE = (
+    "whitenoise.storage.CompressedManifestStaticFilesStorage"
+)
+
+STATICFILES_DIRS = []
+
+STATIC_DIR = BASE_DIR / "static"
+
+if STATIC_DIR.exists():
+
+    STATICFILES_DIRS.append(STATIC_DIR)
 
 # Media files (uploaded documents)
 MEDIA_URL = '/media/'
